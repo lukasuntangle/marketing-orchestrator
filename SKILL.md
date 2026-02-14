@@ -44,6 +44,7 @@ PHASE 5: BATCH 2+3 AGENTS  → Specialist + growth audits (parallel)
 PHASE 6: QUALITY GATE      → CMO Review of all reports
 PHASE 7: REMEDIATION       → Re-run weak reports (if needed)
 PHASE 8: SYNTHESIS          → Unified report with scores, roadmap, quick wins
+PHASE 9: PDF REPORT        → Professional shareable PDF with all agent deep-dives
 ```
 
 ---
@@ -584,15 +585,47 @@ Top 20 actions sorted by ROI
 
 ---
 
+## PHASE 9: GENERATE SHAREABLE PDF
+
+After writing FULL-REPORT.md, generate the professional PDF that combines ALL agent deep-dives into one shareable document.
+
+```bash
+python3 $HOME/.claude/skills/marketing-orchestrator/report-generator.py ${AUDIT_DIR}
+```
+
+This produces:
+- `${AUDIT_DIR}/FULL-REPORT.html` — styled HTML with print CSS
+- `${AUDIT_DIR}/FULL-REPORT.pdf` — professional PDF via Chrome headless
+
+The PDF includes:
+1. **Cover page** — business name, URL, maturity score, date, agent count
+2. **Table of contents** — three parts: Executive Overview, Specialist Deep-Dives, Appendix
+3. **Executive summary** — maturity score, grade breakdown, top-line findings
+4. **Score breakdown** — all areas scored and graded A-F
+5. **Quick wins** — top 10 actions sorted by impact/effort
+6. **Critical issues** — top 5 with revenue impact estimates
+7. **90-Day roadmap** — month-by-month action plan
+8. **Agent deep-dive chapters** — ONE FULL CHAPTER PER AGENT with complete report content, score badge, quality gate verdict, and page break between each
+9. **Quality gate results** — CMO review scores and verdicts
+10. **Competitive position** — competitor comparison
+11. **Audit log** — all agents, models used, scores, report sizes
+
+Design: professional A4 layout, navy blue headers, clean tables, color-coded scores, page numbers, "Confidential" footer. Text-only (no images) keeps file size under 2MB while allowing 50-100+ pages of content.
+
+If Chrome is not available, the HTML file is still generated and can be opened in any browser and printed to PDF.
+
+---
+
 ## PRESENT TO USER
 
-After writing the report, present in chat:
+After writing the report and generating the PDF, present in chat:
 
 1. **Maturity score** + grade breakdown table
 2. **Top 3 quick wins** — things they can do today
 3. **#1 critical issue** — what to fix first
-4. **File path** to full report
-5. **Offer**: "Your lowest score is [area] at [X]/10. Want me to deep-dive on that?"
+4. **PDF file path** — the shareable professional report
+5. **File paths** — links to FULL-REPORT.pdf, FULL-REPORT.html, and FULL-REPORT.md
+6. **Offer**: "Your lowest score is [area] at [X]/10. Want me to deep-dive on that?"
 
 ---
 
