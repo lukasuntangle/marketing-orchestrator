@@ -700,6 +700,7 @@ class ReportBuilder:
             "</head>",
             "<body>",
             self._cover_page(),
+            self._methodology_section(),
             self._table_of_contents(),
             '<div class="content">',
             self._exec_summary_section(),
@@ -710,6 +711,7 @@ class ReportBuilder:
             self._agent_deepdives(),
             self._quality_gate_section(),
             self._competitive_section(),
+            self._scoring_methodology_section(),
             self._audit_log_section(),
             "</div>",
             '<div class="page-footer">Confidential</div>',
@@ -749,10 +751,73 @@ class ReportBuilder:
 
     def _score_grade(self, score: int) -> str:
         if score >= 80: return "A"
-        if score >= 70: return "B"
-        if score >= 55: return "C"
-        if score >= 40: return "D"
+        if score >= 65: return "B"
+        if score >= 45: return "C"
+        if score >= 25: return "D"
         return "F"
+
+    def _methodology_section(self) -> str:
+        """Add methodology and limitations page right after cover."""
+        content = self._extract_section("Audit Methodology")
+        if not content:
+            now = datetime.now().strftime("%B %d, %Y")
+            agent_count = len(self.agents)
+            content = f"""
+<div class="chapter">
+<div class="alert alert-info">
+<strong>About This Audit</strong><br>
+This is an automated external assessment conducted on {now} using {agent_count} specialist AI agents.
+It evaluates marketing infrastructure maturity based on publicly available data — site crawl content,
+search results, and industry benchmarks.<br><br>
+<strong>What this audit did NOT have access to:</strong> analytics data, conversion rates, revenue by channel,
+customer data, internal business metrics, or user research.<br><br>
+<strong>Revenue estimates are modeled, not measured.</strong> They should be validated with internal data before
+being used for budgeting or planning decisions. All estimates include confidence levels (HIGH/MEDIUM/LOW)
+indicating the reliability of the underlying data.
+</div>
+</div>"""
+        else:
+            content = f'<div class="chapter">\n{md_to_html(content)}\n</div>'
+        return content
+
+    def _scoring_methodology_section(self) -> str:
+        """Add scoring methodology appendix."""
+        content = self._extract_section("Scoring Methodology")
+        if not content:
+            content = """
+<div class="chapter" id="scoring-methodology">
+<h2>Appendix: Scoring Methodology</h2>
+<h3>How Individual Area Scores Work</h3>
+<table>
+<thead><tr><th>Score Range</th><th>Meaning</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>0-15</td><td>Not Implemented</td><td>The capability does not exist. This is different from "broken."</td></tr>
+<tr><td>16-35</td><td>Partially Implemented</td><td>Exists but has fundamental gaps or is actively broken.</td></tr>
+<tr><td>36-55</td><td>Functional with Gaps</td><td>Working but missing significant optimization opportunities.</td></tr>
+<tr><td>56-75</td><td>Solid Implementation</td><td>Well-executed with room for optimization.</td></tr>
+<tr><td>76-100</td><td>Best-in-Class</td><td>Industry-leading execution in this area.</td></tr>
+</tbody>
+</table>
+<h3>Overall Maturity Score</h3>
+<p>The overall score uses weighted averaging. Core operational areas (SEO, CRO, Analytics, Email, Checkout)
+are weighted 2x because they affect all traffic and revenue. Growth and advanced areas (Referral, Programmatic SEO,
+GEO, Social Commerce) are weighted 1x because they represent incremental channels.</p>
+<p><strong>Important:</strong> A low maturity score does NOT mean the business is failing. It means the marketing
+<em>infrastructure</em> has room for improvement. A business with strong product-market fit, brand loyalty, and
+organic demand can be highly successful despite low infrastructure scores.</p>
+<h3>Confidence Levels</h3>
+<table>
+<thead><tr><th>Level</th><th>Meaning</th><th>When Applied</th></tr></thead>
+<tbody>
+<tr><td><strong>HIGH</strong></td><td>Directly verified</td><td>Observed in crawl data or confirmed via multiple independent sources</td></tr>
+<tr><td><strong>MEDIUM</strong></td><td>Reasonably supported</td><td>Based on industry benchmarks applied to estimated business metrics</td></tr>
+<tr><td><strong>LOW</strong></td><td>Directional only</td><td>General patterns with no business-specific data; verify before acting</td></tr>
+</tbody>
+</table>
+</div>"""
+        else:
+            content = f'<div class="chapter" id="scoring-methodology">\n{md_to_html(content)}\n</div>'
+        return content
 
     def _table_of_contents(self) -> str:
         toc = ['<div class="toc">', "<h2>Table of Contents</h2>"]

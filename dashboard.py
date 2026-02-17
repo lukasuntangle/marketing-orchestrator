@@ -48,6 +48,7 @@ HAIKU_SKILLS = {
 
 PHASE_NAMES = {
     "reconnaissance": "RECONNAISSANCE",
+    "collectors": "COLLECTORS",
     "skill_selection": "SKILL SELECTION",
     "batch1": "BATCH 1 — FOUNDATION",
     "warm_handoff": "WARM HANDOFF",
@@ -101,6 +102,8 @@ def detect_phase(audit_dir):
     if agents:
         return "batch1"
     if (d / "context.md").exists():
+        if not (d / "collectors-data.md").exists():
+            return "collectors"
         return "skill_selection"
     if (d / "crawl-data.md").exists():
         return "reconnaissance"
@@ -215,6 +218,8 @@ def render(audit_dir, start_time):
 
     if phase == "complete":
         phase_display = f"{C.BG_GREEN}{C.WHITE} {phase_label} {C.RESET}"
+    elif phase == "collectors":
+        phase_display = f"{C.BG_MAGENTA}{C.WHITE} {phase_label} {C.RESET}"
     elif "batch" in phase:
         phase_display = f"{C.BG_BLUE}{C.WHITE} {phase_label} {C.RESET}"
     elif phase == "quality_gate":
@@ -245,6 +250,14 @@ def render(audit_dir, start_time):
         page_count = crawl_text.count("## PAGE:")
         crawl_lines = len(crawl_text.splitlines())
         print(f"  {C.DIM}Crawled:{C.RESET} {C.GREEN}{page_count} pages{C.RESET} ({crawl_lines:,} lines)")
+
+    # Collectors status
+    collectors_path = d / "collectors-data.md"
+    if collectors_path.exists():
+        collectors_lines = len(collectors_path.read_text().splitlines())
+        print(f"  {C.DIM}Collect:{C.RESET} {C.GREEN}10 collectors{C.RESET} ({collectors_lines:,} lines)")
+    elif phase == "collectors":
+        print(f"  {C.DIM}Collect:{C.RESET} {C.YELLOW}running...{C.RESET}")
 
     print()
 
