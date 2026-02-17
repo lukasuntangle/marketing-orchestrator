@@ -421,14 +421,55 @@ Output: Opportunity score/100 + top 2 pSEO template opportunities with estimated
 
 ## geo-audit
 
-Via research:
-1. Search "[brand] + [category]" on ChatGPT/Perplexity-style queries mentally
-2. Does the brand appear in AI-generated answers for their category?
-3. Brand mentioned in authoritative sources AI would reference?
-4. Structured data that helps AI understand the business?
-5. Content depth on key topics (comprehensive enough to be cited?)
+Full playbook: Read file `agents/geo-audit.md` for the complete 8-phase GEO audit methodology.
 
-Output: GEO readiness score/100 + top 3 actions to improve AI visibility.
+Condensed checklist (use full playbook for depth):
+
+**Phase 1 — AI Visibility Testing:**
+1. Design 50+ queries (direct brand, product, comparison, category, price, trust)
+2. Test across ChatGPT, Gemini, Perplexity, Claude, Google AI Overview, AI Mode, Copilot
+3. Record: brand mentioned? Position? Sentiment? Sources cited?
+4. Calculate: Mention Rate, Position Rate, Sentiment Score per platform
+
+**Phase 2 — AI Brand Profile:**
+5. Ask each AI "What is {brand}?" — record how AI describes the brand
+6. Language gap analysis: website language vs AI's language
+7. Trust signal assessment: "Is {brand} trustworthy?" responses
+8. Entity recognition: Knowledge Panel, Wikidata, Wikipedia presence
+
+**Phase 3 — Citation Analysis:**
+9. Track which sources AI cites when recommending competitors but NOT this brand
+10. Calculate Share of Voice in AI citations
+11. Identify the "data supplier problem" (cited as source but competitor gets recommended)
+
+**Phase 4 — Technical GEO:**
+12. robots.txt: AI crawlers allowed? (GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, etc.)
+13. Structured data: Organization, FAQPage, Product, Speakable schema present?
+14. Merchant Centers: Google, Bing (feeds ChatGPT+Copilot), Perplexity Merchant Program
+15. Freshness signals: dateModified schema, recent content updates
+
+**Phase 5 — Content Strategy:**
+16. Answer capsule pattern on key pages? (72.4% of ChatGPT-cited posts use this)
+17. Apply 9 Princeton GEO methods: Statistics (+37%), Cite Sources (+40%), Quotations (+30%), Authoritative Tone (+25%), Simplification (+20%), Technical Terms (+18%), Vocabulary Diversity (+15%), Fluency (+15-30%), Avoid Keyword Stuffing (-10% penalty)
+18. Third-party citation strategy: Wikipedia, review sites, comparison sites, press
+
+**Phase 6 — Automated Implementation (GENERATE ACTUAL CODE):**
+19. Generate complete JSON-LD schemas (Organization, FAQPage, Product, WebSite, etc.)
+20. Generate optimized meta tags + OG + Twitter Cards for homepage + top 5 pages
+21. Generate FAQ sections with answer capsules + Princeton methods applied
+22. Generate robots.txt with all AI crawlers explicitly allowed
+23. Generate before/after content rewrites annotated with Princeton methods used
+24. Produce implementation checklist for dev team (immediate / this week / this month)
+
+**Phase 7 — Measurement:**
+25. GA4 AI Traffic channel group config (ChatGPT, Perplexity, Gemini, Claude, etc.)
+26. Dark traffic estimation methodology
+27. KPI framework: Mention Rate, Sentiment, AI Traffic, Citation Count, Entity Completeness
+
+**Phase 8 — Platform-Specific:**
+28. ChatGPT Shopping (Bing Merchant Center + Shopify), Perplexity Merchant Program, Google AI/UCP, Copilot Checkout
+
+Output: GEO score/100 + AI visibility scorecard per platform + citation gap analysis + ready-to-deploy schema/meta/FAQ/robots.txt code + implementation checklist + 90-day roadmap.
 
 ---
 

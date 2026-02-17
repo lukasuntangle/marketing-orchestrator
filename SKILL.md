@@ -565,7 +565,6 @@ Use **haiku** for detection/checklist agents (fast, cheap, context-light):
 - `form-cro` — evaluate visible form elements
 - `popup-cro` — check if popups exist
 - `product-feed` — check Shopping presence
-- `geo-audit` — quick assessment
 
 Use **sonnet** for analysis/creative agents (needs judgment):
 - `page-cro` — deep conversion analysis
@@ -577,6 +576,7 @@ Use **sonnet** for analysis/creative agents (needs judgment):
 - `paid-ads` — channel strategy
 - `social-content` — content strategy
 - `email-sequence` / `ecommerce-email` — sequence design
+- `geo-audit` — full 8-phase AI visibility audit + implementation artifacts (uses full playbook from `agents/geo-audit.md`)
 - Everything else not listed as haiku
 
 ### Spawning Batch 1
